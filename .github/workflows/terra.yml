@@ -27,10 +27,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: "us-east-1"  # Replace with your preferred region
 
-      - name: Initialize Terraform
-        run: terraform init -upgrade
+      - name: Terraform Workspace - Create and Select
+        run: |
+          terraform workspace new production || true
+          terraform workspace select production
 
+      - name: Terraform Init
+        run: terraform init
 
-      - name: Apply Terraform changes
-        run: terraform apply -auto-approve
-
+      - name: Terraform Apply
+        run: terraform apply -var-file=variables-production.tfvars -auto-approve
