@@ -36,8 +36,8 @@ resource "null_resource" "configure_db" {
       aws rds modify-db-instance \
         --db-instance-identifier ${aws_db_instance.example[0].id} \
         --db-parameter-group-name ${aws_db_parameter_group.example.name} \
-        --master-username your_master_username \
-        --master-user-password your_master_password
+        --master-username siridb \
+        --master-user-password Siri@4830
     EOT
   }
 }
