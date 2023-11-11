@@ -18,14 +18,18 @@ resource "aws_db_parameter_group" "example" {
 }
 
 resource "aws_db_instance" "example" {
-  engine            = "mysql"
-  instance_class    = "db.t2.micro"
-  allocated_storage = 10
-  count             = 1
+  engine               = "mysql"
+  instance_class       = "db.t2.micro"
+  allocated_storage    = 10
+  count                = 1
+
+  username             = "your_db_username"   # Replace with your desired username
+  password             = "your_db_password"   # Replace with your desired password
+  db_parameter_group_name = aws_db_parameter_group.example.name
 
   # Set other necessary configurations for the database instance...
 
-  # Omitted db_parameter_group_name, master_username, and master_password
+  # Omitted other parameters like db_subnet_group_name, allocated_storage, etc.
 }
 
 resource "null_resource" "configure_db" {
@@ -35,9 +39,8 @@ resource "null_resource" "configure_db" {
     command = <<EOT
       aws rds modify-db-instance \
         --db-instance-identifier ${aws_db_instance.example[0].id} \
-        --db-parameter-group-name ${aws_db_parameter_group.example.name} \
-        --master-username siridb \
-        --master-user-password Siri@4830
+        --master-username your_master_username \
+        --master-user-password your_master_password
     EOT
   }
 }
