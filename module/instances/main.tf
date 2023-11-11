@@ -1,12 +1,14 @@
-
 resource "aws_instance" "example" {
+  count         = 2
   ami           = "ami-05c13eab67c5d8861"
   instance_type = "t2.micro"
-  count         = 2
 
   subnet_id = element(var.public_subnet_ids, count.index)
 
-  # other instance configurations...
+  tags = {
+    Name = "ExampleInstance-${count.index + 1}"
+    # Add other tags as needed
+  }
+
+  
 }
-
-

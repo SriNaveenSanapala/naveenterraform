@@ -6,6 +6,7 @@ description = "Example KMS Key"
 
 resource "aws_db_instance" "default" {
   allocated_storage             = 10
+  identifier_name               = RDS_db
   db_name                       = "mydb"
   engine                        = "mysql"
   engine_version                = "5.7"
