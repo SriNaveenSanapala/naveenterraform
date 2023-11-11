@@ -1,4 +1,5 @@
 variable "vpc_id" {}
+variable "private_subnet_ids" {}
 
 resource "aws_db_instance" "example" {
   engine           = "mysql"
@@ -13,5 +14,5 @@ resource "aws_db_instance" "example" {
 
 resource "aws_db_subnet_group" "main" {
   name       = "main"
-  subnet_ids = aws_subnet.private.*.id
+  subnet_ids = var.private_subnet_ids
 }
