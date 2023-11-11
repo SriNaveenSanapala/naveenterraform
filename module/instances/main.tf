@@ -1,39 +1,21 @@
-variable "vpc_id" {
-  default = null
+variable "vpc_id" {}
+variable "public_subnet_ids" {}
+variable "private_subnet_ids" {}
+
+resource "aws_instance" "example" {
+  ami           = "ami-0c55b159cbfafe1f0"
+  instance_type = "t2.micro"
+  count         = 2
+
+  subnet_id = element(var.public_subnet_ids, count.index)
+
+  # other instance configurations...
 }
 
-variable "public_subnet_ids" {
-  default = null
-}
-
-variable "private_subnet_ids" {
-  default = null
-}
-
-
-# Use the variables in your instances module
-
-
-resource "aws_db_instance" "example" {
-  engine           = "mysql"
-  instance_class   = "db.t2.micro"
-  allocated_storage = 10
-  count            = 1
-
-  subnet_group_name = aws_db_subnet_group.main.name
-
-  # other database configurations...
-}
-
-resource "aws_db_subnet_group" "main" {
-  name       = "main"
-  subnet_ids = var.private_subnet_ids
-}
 output "public_subnet_ids" {
-  value = aws_subnet.public[*].id
+  value = module.network.public_subnet_ids
 }
 
 output "private_subnet_ids" {
-  value = aws_subnet.private[*].id
+  value = module.network.private_subnet_ids
 }
-
