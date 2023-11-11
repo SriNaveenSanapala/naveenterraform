@@ -1,5 +1,18 @@
-variable "vpc_id" {}
-variable "private_subnet_ids" {}
+variable "vpc_id" {
+  default = null
+}
+
+variable "public_subnet_ids" {
+  default = null
+}
+
+variable "private_subnet_ids" {
+  default = null
+}
+
+
+# Use the variables in your instances module
+
 
 resource "aws_db_instance" "example" {
   engine           = "mysql"
