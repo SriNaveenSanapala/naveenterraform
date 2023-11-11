@@ -4,17 +4,13 @@ resource "aws_db_instance" "example" {
   instance_class       = "db.t2.micro"
   allocated_storage    = 10
   count                = 1
-  username             = "siridb"
-  parameter_group_name = aws_db_parameter_group.example.name
+
+  master_username = "siridb"
+  master_password = "Siri@4830"
 
   # other database configurations...
 }
 
-resource "aws_db_parameter_group" "example" {
-  name        = "example"
-  family      = "mysql8.0"
-  description = "Example parameter group"
-  parameters = {
-    "password" = "Siri@4830"
-  }
-}
+
+  # other database configurations...
+
