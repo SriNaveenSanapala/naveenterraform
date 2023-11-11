@@ -1,15 +1,18 @@
 variable "vpc_id" {}
-variable "public_subnet_ids" {}
 variable "private_subnet_ids" {}
 
-resource "aws_instance" "example" {
-  ami           = "ami-0e8a34246278c21e4 "
-  instance_type = "t2.micro"
-  count         = 2
+resource "aws_db_instance" "example" {
+  engine           = "mysql"
+  instance_class   = "db.t2.micro"
+  allocated_storage = 10
+  count            = 1
 
-  subnet_id = element(var.private_subnet_ids, count.index % length(var.private_subnet_ids))
+  subnet_group_name = aws_db_subnet_group.main.name
 
-  # other instance configurations...
+  # other database configurations...
 }
 
-# ... other configurations
+resource "aws_db_subnet_group" "main" {
+  name       = "main"
+  subnet_ids = var.private_subnet_ids
+}
