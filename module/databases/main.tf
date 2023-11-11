@@ -1,21 +1,19 @@
-variable "vpc_id" {}
-variable "private_subnet_ids" {}
-
-resource "aws_db_subnet_group" "main" {
-  name       = "main"
-  subnet_ids = var.private_subnet_ids
-}
-
 resource "aws_db_instance" "example" {
-  engine            = "mysql"
-  instance_class    = "db.t2.micro"
-  allocated_storage = 10
-  count             = 1
-  username = "siridb"
-   master_password = "Siri@4830"
-
-  # Remove the line below
-  # subnet_group_name = aws_db_subnet_group.main.name
+  engine               = "mysql"
+  instance_class       = "db.t2.micro"
+  allocated_storage    = 10
+  count                = 1
+  username             = "siridb"
+  parameter_group_name = aws_db_parameter_group.example.name
 
   # other database configurations...
+}
+
+resource "aws_db_parameter_group" "example" {
+  name        = "example"
+  family      = "mysql8.0"
+  description = "Example parameter group"
+  parameters = {
+    "password" = "Siri@4830"
+  }
 }
