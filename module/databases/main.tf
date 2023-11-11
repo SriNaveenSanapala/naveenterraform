@@ -12,6 +12,7 @@ resource "aws_db_instance" "example" {
   allocated_storage = 10
   count             = 1
   username = "siridb"
+   master_password = "Siri@4830"
 
   # Remove the line below
   # subnet_group_name = aws_db_subnet_group.main.name
