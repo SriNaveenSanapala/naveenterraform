@@ -23,8 +23,8 @@ resource "aws_db_instance" "example" {
   allocated_storage    = 10
   count                = 1
 
-  username             = "your_db_username"   # Replace with your desired username
-  password             = "your_db_password"   # Replace with your desired password
+  username             = "siridb"   # Replace with your desired username
+  password             = "Siri@4830"   # Replace with your desired password
   db_parameter_group_name = aws_db_parameter_group.example.name
 
   # Set other necessary configurations for the database instance...
