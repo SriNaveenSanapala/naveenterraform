@@ -16,3 +16,11 @@ resource "aws_db_subnet_group" "main" {
   name       = "main"
   subnet_ids = var.private_subnet_ids
 }
+output "public_subnet_ids" {
+  value = aws_subnet.public[*].id
+}
+
+output "private_subnet_ids" {
+  value = aws_subnet.private[*].id
+}
+
