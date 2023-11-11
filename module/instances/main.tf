@@ -1,6 +1,3 @@
-variable "vpc_id" {}
-variable "public_subnet_ids" {}
-variable "private_subnet_ids" {}
 
 resource "aws_instance" "example" {
   ami           = "ami-05c13eab67c5d8861"
