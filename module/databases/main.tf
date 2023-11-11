@@ -11,6 +11,7 @@ resource "aws_db_instance" "example" {
   instance_class    = "db.t2.micro"
   allocated_storage = 10
   count             = 1
+  username = "siridb"
 
   # Remove the line below
   # subnet_group_name = aws_db_subnet_group.main.name

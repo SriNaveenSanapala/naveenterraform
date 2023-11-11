@@ -3,7 +3,7 @@ variable "public_subnet_ids" {}
 variable "private_subnet_ids" {}
 
 resource "aws_instance" "example" {
-  ami           = "ami-0c55b159cbfafe1f0"
+  ami           = "ami-05c13eab67c5d8861"
   instance_type = "t2.micro"
   count         = 2
 
