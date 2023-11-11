@@ -1,4 +1,5 @@
 variable "vpc_cidr_block" {}
+variable "availability_zones" {}
 
 resource "aws_vpc" "main" {
   cidr_block          = var.vpc_cidr_block

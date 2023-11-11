@@ -3,25 +3,25 @@ provider "aws" {
 }
 
 module "network" {
-  source              = "./module/network"
+  source              = "./modules/network"
   vpc_cidr_block      = "10.0.0.0/16"
-  availability_zones  = ["us-west-2a", "us-west-2b"]
+  availability_zones  = ["us-east-1a", "us-east-1b"]
 }
 
 module "instances" {
-  source              = "./module/instances"
+  source              = "./modules/instances"
   vpc_id              = module.network.vpc_id
   public_subnet_ids   = module.network.public_subnet_ids
   private_subnet_ids  = module.network.private_subnet_ids
 }
 
 module "databases" {
-  source              = "./module/databases"
+  source              = "./modules/databases"
   vpc_id              = module.network.vpc_id
   private_subnet_ids  = module.network.private_subnet_ids
 }
 
 module "security" {
-  source              = "./module/security"
+  source              = "./modules/security"
   vpc_id              = module.network.vpc_id
 }
