@@ -5,18 +5,17 @@ resource "aws_db_parameter_group" "example" {
   family      = "mysql8.0"
   description = "Example parameter group"
 
-  parameters = {
-    "skip_show_database"    = "1"
-    "character_set_client"  = "utf8mb4"
-    "character_set_server"  = "utf8mb4"
-    "collation_connection"  = "utf8mb4_unicode_ci"
-    "collation_server"      = "utf8mb4_unicode_ci"
-    "max_allowed_packet"    = "256M"
-    "time_zone"             = "UTC"
-    "wait_timeout"          = "28800"
-    "master_username"       = "siridb"
-    "master_password"       = "Siri@4830"
+  parameter {
+    name  = "skip_show_database"
+    value = "1"
   }
+
+  parameter {
+    name  = "character_set_client"
+    value = "utf8mb4"
+  }
+
+  # Add other parameters as needed
 }
 
 resource "aws_db_instance" "example" {
@@ -25,7 +24,10 @@ resource "aws_db_instance" "example" {
   allocated_storage    = 10
   count                = 1
 
-  parameter_group_name = aws_db_parameter_group.example.name
+  db_parameter_group_name = aws_db_parameter_group.example.name
 
-  # other database configurations...
+  master_username = "siridb"
+  master_password = "Siri@4830"
+
+  # Set other necessary configurations for the database instance...
 }
