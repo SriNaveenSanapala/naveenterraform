@@ -17,7 +17,6 @@ module "instances" {
 
 module "databases" {
   source               = "./module/databases"
-  vpc_id               = module.network.vpc_id
   private_subnet_ids   = module.network.private_subnet_ids
 }
 
