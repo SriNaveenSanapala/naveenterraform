@@ -1,3 +1,4 @@
+variable "private_subnet_ids" {}
 resource "aws_db_instance" "example" {
   engine               = "mysql"
   instance_class       = "db.t2.micro"
