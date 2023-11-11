@@ -1,3 +1,5 @@
+variable "private_subnet_ids" {}
+
 resource "aws_db_parameter_group" "example" {
   name        = "example"
   family      = "mysql8.0"
