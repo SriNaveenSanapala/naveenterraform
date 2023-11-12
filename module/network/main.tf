@@ -63,6 +63,14 @@ resource "aws_route_table" "private" {
   }
 }
 
+resource "null_resource" "dummy" {
+  count = 1
+
+  provisioner "local-exec" {
+    command = "echo This is a dummy resource"
+  }
+}
+
 resource "null_resource" "dependency" {
   count = var.create_internet_gateway ? length(var.public_subnet_names) : 0
 
