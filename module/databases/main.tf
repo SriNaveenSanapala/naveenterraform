@@ -1,11 +1,14 @@
 module "network" {
-  source              = "../network"
-  vpc_cidr_block      = "10.0.0.0/16"
-  availability_zones  = ["us-east-1a", "us-east-1b"]
-  public_subnet_names = ["public-subnet-1", "public-subnet-2"]
-  private_subnet_names = ["private-subnet-1"]
-  igw_name            = "my-igw"
-  create_internet_gateway = false  # Set to false to avoid creating a duplicate Internet Gateway
+  source = "../network"
+
+  vpc_cidr_block          = "10.0.0.0/16"
+  availability_zones      = ["us-east-1a", "us-east-1b"]
+  // other configurations...
+}
+
+module "security" {
+  source = "../security"
+  vpc_id = module.network.vpc_id
 }
 
 resource "aws_kms_key" "example" {
@@ -16,7 +19,8 @@ resource "aws_db_subnet_group" "example" {
   name        = "my-db-subnet-group"
   description = "My DB Subnet Group"
   subnet_ids  = [
-    module.network.private_subnet_ids[0],  # Make sure this subnet is in one AZ
+    aws_subnet.private[0].id,  # Make sure this subnet is in one AZ
+    aws_subnet.private[1].id,  # And this one is in another AZ
     # Add more subnets if needed
   ]
 }
