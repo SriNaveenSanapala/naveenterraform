@@ -16,10 +16,11 @@ resource "aws_db_subnet_group" "example" {
   name        = "my-db-subnet-group"
   description = "My DB Subnet Group"
   subnet_ids  = [
-    module.network.aws_subnet.private[0].id,  # Make sure this subnet is in one AZ
+    module.network.subnet_ids.private[0],  # Make sure this subnet is in one AZ
     # Add more subnets if needed
   ]
 }
+
 
 resource "aws_db_instance" "default" {
   allocated_storage             = 10
