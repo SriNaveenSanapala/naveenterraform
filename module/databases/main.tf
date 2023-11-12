@@ -1,3 +1,8 @@
+module "network" {
+  source = "../network"
+  // other configurations...
+}
+
 module "security" {
   source = "../security"
   vpc_id = module.network.vpc_id
