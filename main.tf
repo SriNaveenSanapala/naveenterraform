@@ -16,9 +16,9 @@ module "databases" {
 }
 
 module "security" {
-  source = "./module/security"
-  #vpc_id = module.network.vpc_id
-  
+  source  = "./module/security"
+  vpc_id  = module.network.vpc_id
+  // Add any other necessary variables
 }
 
 module "instances" {
