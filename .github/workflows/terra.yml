@@ -1,5 +1,5 @@
 
-name: Terraform AWS Deployment
+name: Terraform AWS Deployments
 
 on:
   push:
