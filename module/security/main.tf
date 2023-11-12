@@ -1,9 +1,7 @@
-resource "aws_security_group" "examples" {
-  name        = "examples"
+resource "aws_security_group" "example" {
+  name        = "example"
   description = "Allow inbound SSH and outbound HTTP traffic"
   vpc_id      = var.vpc_id
-
-    # Only create the security group if the variable is true
 
   ingress {
     from_port   = 22
@@ -12,13 +10,9 @@ resource "aws_security_group" "examples" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Create a separate security group rule for RDS
-  ingress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  # Add other security group rules as needed
 }
 
-
+output "security_group_id" {
+  value = aws_security_group.example.id
+}
