@@ -15,12 +15,12 @@ module "instances" {
   vpc_id             = module.network.vpc_id
   public_subnet_ids  = module.network.public_subnet_ids
   private_subnet_ids = module.network.private_subnet_ids
-  ec2_sg_id          = module.network.ec2_sg_id  # Reference the ec2_sg_id from the network module
+  ec2_sg_id          = module.network.ec2_security_group_id # Reference the ec2_sg_id from the network module
 }
 
 module "databases" {
   source     = "./module/databases"
   vpc_id     = module.network.vpc_id
-  rds_sg_id  = module.network.rds_sg_id  # Reference the rds_sg_id from the network module
+  rds_sg_id  = module.network.rds_security_group_id  # Reference the rds_sg_id from the network module
 }
 
