@@ -15,7 +15,7 @@ module "instances" {
   vpc_id             = module.network.vpc_id
   public_subnet_ids  = module.network.public_subnet_ids
   private_subnet_ids = module.network.private_subnet_ids
-  security_group_id  = module.security.aws_security_group.example.id
+ # security_group_id  = module.security.aws_security_group.example.id
 }
 
 module "databases" {
