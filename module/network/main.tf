@@ -63,22 +63,12 @@ resource "aws_route_table" "private" {
   }
 }
 
-# ./module/network/main.tf
-
 resource "null_resource" "dependency" {
-  count = length(var.public_subnet_names)
+  count = var.create_internet_gateway ? length(var.public_subnet_names) : 0
 
   provisioner "local-exec" {
     command = "echo This is a dependency for subnet ${var.public_subnet_names[count.index]}"
   }
 
-  # Use a static list of dependencies outside of the null_resource block
-  static_dependencies = [
-    aws_route_table_association.public_subnet_association[0],  # Adjust the index accordingly
-    aws_route_table_association.public_subnet_association[1],  # Adjust the index accordingly
-    # Add more dependencies if needed
-  ]
-
-  depends_on = var.create_internet_gateway ? static_dependencies : []
+  depends_on = [null_resource.dependency[count.index]]
 }
-
