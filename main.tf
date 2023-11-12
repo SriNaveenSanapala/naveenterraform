@@ -21,7 +21,7 @@ module "instances" {
 module "databases" {
   source             = "./module/databases"
   private_subnet_ids = module.network.private_subnet_ids
-  security_group_id  = module.security.aws_security_group.example.id
+  #security_group_id  = module.security.aws_security_group.example.id
 }
 
 module "security" {
