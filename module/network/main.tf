@@ -12,7 +12,7 @@ resource "aws_vpc" "main" {
 }
 
 resource "aws_subnet" "public" {
-  count                   = length(var.public_subnet_names)
+  count                   = 1
   vpc_id                  = aws_vpc.main[0].id
   cidr_block              = "10.0.${count.index + 1}.0/24"
   availability_zone       = element(var.availability_zones, count.index)
@@ -22,20 +22,19 @@ resource "aws_subnet" "public" {
   }
 }
 
-
 resource "aws_subnet" "private" {
+  count                   = 1
   vpc_id                  = aws_vpc.main[0].id
-  cidr_block              = "10.0.3.0/24"
-  availability_zone       = element(var.availability_zones, 0)
+  cidr_block              = "10.0.${count.index + 3}.0/24"
+  availability_zone       = element(var.availability_zones, count.index)
   map_public_ip_on_launch = false
   tags = {
-    Name = "private-subnet-1"
+    Name = var.private_subnet_names[count.index]
   }
 }
 
-
 resource "aws_internet_gateway" "main" {
-  count = var.create_internet_gateway ? 1 : 0
+  count = 1
   vpc_id = aws_vpc.main[0].id
   tags = {
     Name = var.igw_name
@@ -48,7 +47,7 @@ resource "aws_route_table" "public" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = var.create_internet_gateway ? aws_internet_gateway.main[0].id : null
+    gateway_id = aws_internet_gateway.main[0].id
   }
 
   tags = {
@@ -64,20 +63,18 @@ resource "aws_route_table" "private" {
   }
 }
 
-resource "null_resource" "dummy" {
-  count = 1
-
-  provisioner "local-exec" {
-    command = "echo This is a dummy resource"
-  }
+resource "aws_route_table_association" "public_subnet_association" {
+  count          = 1
+  subnet_id      = aws_subnet.public[0].id
+  route_table_id = aws_route_table.public[0].id
+  depends_on     = [aws_route_table.public[0]]
 }
 
-resource "null_resource" "dependency" {
-  count = var.create_internet_gateway ? length(var.public_subnet_names) : 0
-
-  provisioner "local-exec" {
-    command = "echo This is a dependency for subnet ${var.public_subnet_names[count.index]}"
-  }
-
-  depends_on = [null_resource.dummy]
+resource "aws_route_table_association" "private_subnet_association" {
+  count          = 1
+  subnet_id      = aws_subnet.private[0].id
+  route_table_id = aws_route_table.private[0].id
+  depends_on     = [aws_route_table.private[0]]
 }
+
+

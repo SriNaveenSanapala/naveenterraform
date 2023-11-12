@@ -31,11 +31,3 @@ variable "private_route_table_name" {
   type    = string
   default = ""
 }
-# ./module/network/variables.tf
-
-variable "create_internet_gateway" {
-  type    = bool
-  default = true
-}
-
-# ... rest of the variable declarations
