@@ -1,7 +1,7 @@
 resource "aws_security_group" "ec2_sg" {
   name        = "web_sg"
   description = "Security group for web instances"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = "var.vpc_id"
 
   // Define your security group rules here
   ingress {
@@ -26,7 +26,7 @@ resource "aws_security_group" "ec2_sg" {
   resource "aws_security_group" "rds_sg" {
   name        = "db_sg"
   description = "Security group for database instances"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = "var.vpc_id"
 
   // Define your security group rules here
   ingress {
