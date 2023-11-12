@@ -77,6 +77,4 @@ resource "aws_route_table_association" "private_subnet_association" {
   depends_on     = [aws_route_table.private[0]]
 }
 
-lifecycle {
-  prevent_destroy = true
-}
+
