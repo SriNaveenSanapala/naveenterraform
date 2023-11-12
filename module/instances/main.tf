@@ -3,7 +3,8 @@ resource "aws_instance" "example" {
   ami                  = "ami-05c13eab67c5d8861"
   instance_type        = "t2.micro"
   subnet_id            = element(var.public_subnet_ids, count.index)
-  security_group_ids   = [module.security.security_group_id]
+  vpc_security_group_ids = [module.security.security_group_id] # Use vpc_security_group_ids instead
+
   tags = {
     Name = "ExampleInstance-${count.index + 1}"
   }
