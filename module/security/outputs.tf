@@ -1,14 +1,11 @@
-
 output "vpc_id" {
-  value = aws_vpc.main.id
+  value = aws_security_group.example.vpc_id
 }
 
 output "public_subnet_ids" {
-  value = aws_subnet.public[*].id
+  value = []  # If you don't have any dependencies on public subnets in your security module
 }
 
 output "private_subnet_ids" {
-  value = aws_subnet.private[*].id
+  value = []  # If you don't have any dependencies on private subnets in your security module
 }
-
-# Add other necessary outputs
