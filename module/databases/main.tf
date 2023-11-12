@@ -13,5 +13,5 @@ resource "aws_db_instance" "default" {
   master_user_secret_kms_key_id = aws_kms_key.example.key_id
   username                      = "foo"
   parameter_group_name          = "default.mysql5.7"
-  vpc_security_group_ids        = [var.security_group_id] # Change to use var
+  vpc_security_group_ids        = [module.security.aws_security_group.example.id]
 }
