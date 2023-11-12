@@ -36,8 +36,9 @@ resource "aws_db_instance" "default" {
   master_user_secret_kms_key_id = aws_kms_key.example.key_id
   username                      = "foo"
   parameter_group_name          = "default.mysql5.7"
-  
-  vpc_security_group_ids        = [module.security.security_group_id]
 
+  vpc_security_group_ids        = var.create_security_group ? [module.security.security_group_id] : []
+  
   db_subnet_group_name          = aws_db_subnet_group.example.name
 }
+
