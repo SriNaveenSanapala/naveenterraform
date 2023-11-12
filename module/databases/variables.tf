@@ -9,10 +9,6 @@ variable "vpc_id" {
   description = "The ID of the VPC"
 }
 
-variable "private_subnet_ids" {
-  description = "List of private subnet IDs"
-}
-
 variable "rds_sg_id" {
   description = "Security Group ID for RDS"
 }
