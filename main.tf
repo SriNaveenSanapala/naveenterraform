@@ -8,7 +8,9 @@ module "network" {
   igw_name                = "my-igw"
   public_route_table_name = "public-route-table"
   private_route_table_name = "private-route-table"
+  create_internet_gateway = false  # Set to false to avoid creating a duplicate Internet Gateway
 }
+
 
 module "databases" {
   source             = "./module/databases"
