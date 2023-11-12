@@ -12,26 +12,25 @@ resource "aws_vpc" "main" {
 }
 
 resource "aws_subnet" "public" {
-  count                   = 1
   vpc_id                  = aws_vpc.main[0].id
-  cidr_block              = "10.0.${count.index + 1}.0/24"
-  availability_zone       = element(var.availability_zones, count.index)
+  cidr_block              = "10.0.1.0/24"
+  availability_zone       = element(var.availability_zones, 0)
   map_public_ip_on_launch = true
   tags = {
-    Name = var.public_subnet_names[count.index]
+    Name = "public-subnet-1"
   }
 }
 
 resource "aws_subnet" "private" {
-  count                   = 1
   vpc_id                  = aws_vpc.main[0].id
-  cidr_block              = "10.0.${count.index + 3}.0/24"
-  availability_zone       = element(var.availability_zones, count.index)
+  cidr_block              = "10.0.3.0/24"
+  availability_zone       = element(var.availability_zones, 0)
   map_public_ip_on_launch = false
   tags = {
-    Name = var.private_subnet_names[count.index]
+    Name = "private-subnet-1"
   }
 }
+
 
 resource "aws_internet_gateway" "main" {
   count = 1
