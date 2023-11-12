@@ -21,6 +21,8 @@ module "instances" {
 module "databases" {
   source     = "./module/databases"
   vpc_id     = module.network.vpc_id
-  rds_sg_id  = module.network.rds_security_group_id  # Reference the rds_sg_id from the network module
+  private_subnet_ids = module.network.private_subnet_ids
+  # Add other necessary arguments
+ rds_sg_id  = module.network.rds_security_group_id  # Reference the rds_sg_id from the network module
 }
 
