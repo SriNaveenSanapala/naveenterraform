@@ -1,5 +1,5 @@
-resource "aws_security_group" "example" {
-  name        = "example"
+resource "aws_security_group" "examples" {
+  name        = "examples"
   description = "Allow inbound SSH and outbound HTTP traffic"
 
   vpc_id = var.vpc_id

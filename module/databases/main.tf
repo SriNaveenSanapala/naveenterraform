@@ -2,7 +2,7 @@
 
 module "security" {
   source = "../security"
-  vpc_id = var.vpc_id
+
 }
 
 
