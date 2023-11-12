@@ -35,21 +35,8 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-      - name: Check if RDS exists
-        id: check-rds
-        run: |
-          # Use a script to check if the RDS instance exists
-          # Set an output variable 'rds_exists' based on the check
-          if [ check_if_rds_exists ]; then
-            echo "RDS exists"
-            echo "rds_exists=true" >> $GITHUB_ENV
-          else
-            echo "RDS does not exist"
-            echo "rds_exists=false" >> $GITHUB_ENV
-          fi
-
-      - name: Create RDS (conditional)
-        if: env.rds_exists != 'true'
+     
+      - name: Terraform apply
         run: terraform apply -auto-approve
 
 
