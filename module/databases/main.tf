@@ -1,14 +1,5 @@
 module "network" {
   source = "../network"
-
-  vpc_cidr_block          = "10.0.0.0/16"
-  availability_zones      = ["us-east-1a", "us-east-1b"]
-  // other configurations...
-}
-
-module "security" {
-  source = "../security"
-  vpc_id = module.network.vpc_id
 }
 
 resource "aws_kms_key" "example" {
@@ -19,12 +10,10 @@ resource "aws_db_subnet_group" "example" {
   name        = "my-db-subnet-group"
   description = "My DB Subnet Group"
   subnet_ids  = [
-    aws_subnet.private[0].id,  # Make sure this subnet is in one AZ
-    aws_subnet.private[1].id,  # And this one is in another AZ
+    module.network.aws_subnet.private[0].id,  # Make sure this subnet is in one AZ
     # Add more subnets if needed
   ]
 }
-
 
 resource "aws_db_instance" "default" {
   allocated_storage             = 10

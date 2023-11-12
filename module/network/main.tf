@@ -22,8 +22,8 @@ resource "aws_subnet" "public" {
   }
 }
 
+
 resource "aws_subnet" "private" {
-  count                   = 1
   vpc_id                  = aws_vpc.main[0].id
   cidr_block              = "10.0.3.0/24"
   availability_zone       = element(var.availability_zones, 0)
@@ -32,6 +32,7 @@ resource "aws_subnet" "private" {
     Name = "private-subnet-1"
   }
 }
+
 
 resource "aws_internet_gateway" "main" {
   count = var.create_internet_gateway ? 1 : 0
