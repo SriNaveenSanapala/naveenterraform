@@ -4,9 +4,7 @@ resource "aws_kms_key" "example" {
   description = "Example KMS Key"
 }
 
-resource "aws_kms_key" "example" {
-  description = "Example KMS Key"
-}
+
 
 resource "aws_db_instance" "default" {
   allocated_storage             = 10
