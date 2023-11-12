@@ -22,6 +22,3 @@ resource "aws_security_group" "example" {
   # Add other security group rules as needed
 }
 
-output "vpc_id" {
-  value = var.vpc_id
-}
