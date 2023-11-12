@@ -1,5 +1,5 @@
 module "network" {
-  source                  = "./modules/network"
+  source                  = "./module/network"
   vpc_cidr_block          = "10.0.0.0/16"
   availability_zones      = ["us-east-1a", "us-east-1b"]
   vpc_name                = "my-vpc1"
@@ -11,17 +11,17 @@ module "network" {
 }
 
 module "database" {
-  source             = "./modules/database"
+  source             = "./module/database"
   private_subnet_ids = module.network.private_subnet_ids
 }
 
 module "security" {
-  source = "./modules/security"
+  source = "./module/security"
   vpc_id = module.network.vpc_id
 }
 
 module "instances" {
-  source             = "./modules/instances"
+  source             = "./module/instances"
   vpc_id             = module.network.vpc_id
   public_subnet_ids  = module.network.public_subnet_ids
   private_subnet_ids = module.network.private_subnet_ids
