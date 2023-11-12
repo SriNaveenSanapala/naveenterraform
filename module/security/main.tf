@@ -10,6 +10,7 @@ resource "aws_security_group" "example" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
   # Create a separate security group rule for RDS
   resource "aws_security_group_rule" "rds_ingress" {
     security_group_id = aws_security_group.example.id
@@ -20,7 +21,3 @@ resource "aws_security_group" "example" {
     cidr_blocks       = ["0.0.0.0/0"]
   }
 }
-
-
- 
-

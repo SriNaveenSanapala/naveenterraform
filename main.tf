@@ -1,5 +1,3 @@
-# main.tf
-
 module "network" {
   source                  = "./module/network"
   vpc_cidr_block          = "10.0.0.0/16"
@@ -13,18 +11,20 @@ module "network" {
 }
 
 module "instances" {
-  source               = "./module/instances"
-  vpc_id               = module.network.vpc_id
-  public_subnet_ids    = module.network.public_subnet_ids
-  private_subnet_ids   = module.network.private_subnet_ids
+  source             = "./module/instances"
+  vpc_id             = module.network.vpc_id
+  public_subnet_ids  = module.network.public_subnet_ids
+  private_subnet_ids = module.network.private_subnet_ids
+  security_group_id  = module.security.aws_security_group.example.id
 }
 
 module "databases" {
-  source               = "./module/databases"
-  private_subnet_ids   = module.network.private_subnet_ids
+  source             = "./module/databases"
+  private_subnet_ids = module.network.private_subnet_ids
+  security_group_id  = module.security.aws_security_group.example.id
 }
 
 module "security" {
-  source               = "./module/security"
-  vpc_id               = module.network.vpc_id
+  source = "./module/security"
+  vpc_id = module.network.vpc_id
 }
