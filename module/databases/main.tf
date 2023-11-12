@@ -1,9 +1,11 @@
 module "network" {
-  source = "../network"
-
-  vpc_cidr_block          = "10.0.0.0/16"
-  availability_zones      = ["us-east-1a", "us-east-1b"]
-  // other configurations...
+  source              = "../network"
+  vpc_cidr_block      = "10.0.0.0/16"
+  availability_zones  = ["us-east-1a", "us-east-1b"]
+  public_subnet_names = ["public-subnet-1", "public-subnet-2"]
+  private_subnet_names = ["private-subnet-1"]
+  igw_name            = "my-igw"
+  create_internet_gateway = false  # Set to false to avoid creating a duplicate Internet Gateway
 }
 
 module "security" {
