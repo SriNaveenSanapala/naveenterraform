@@ -15,6 +15,11 @@ resource "aws_kms_key" "example" {
   description = "Example KMS Key"
 }
 
+resource "aws_db_subnet_group" "example" {
+  name        = "my-db-subnet-group"
+  subnet_ids  = module.network.public_subnet_ids
+}
+
 resource "aws_db_instance" "default" {
   allocated_storage             = 10
   identifier                    = "rds-db"
@@ -29,5 +34,5 @@ resource "aws_db_instance" "default" {
   
   vpc_security_group_ids        = [module.security.security_group_id]
 
-  subnet_ids                    = [module.network.public_subnet_ids[0]]
+  db_subnet_group_name          = aws_db_subnet_group.example.name
 }
