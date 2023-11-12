@@ -63,9 +63,16 @@ resource "aws_route_table" "private" {
   }
 }
 
+# ./module/network/main.tf
+
 resource "null_resource" "dependency" {
-  count      = length(var.public_subnet_names)
+  count = length(var.public_subnet_names)
+
+  provisioner "local-exec" {
+    command = "echo This is a dependency for subnet ${var.public_subnet_names[count.index]}"
+  }
+
   depends_on = [
-    for idx in range(count) : aws_route_table.public[idx]
+    aws_route_table_association.public_subnet_association[count.index],
   ]
 }

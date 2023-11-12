@@ -11,14 +11,12 @@ module "network" {
   create_internet_gateway = false  # Set to false to avoid creating a duplicate Internet Gateway
 }
 
-
 module "databases" {
   source             = "./module/databases"
   private_subnet_ids = module.network.private_subnet_ids
   public_subnet_ids  = module.network.public_subnet_ids  # Include this line
   depends_on         = [module.network]
 }
-
 
 module "security" {
   source = "./module/security"
