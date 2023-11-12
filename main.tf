@@ -10,20 +10,17 @@ module "network" {
   private_route_table_name = "private-route-table"
 }
 
-module "databases" {
-  source             = "./module/databases"
-  private_subnet_ids = module.network.private_subnet_ids
-}
-
-module "security" {
-  source  = "./module/security"
-  vpc_id  = module.network.vpc_id
-  // Add any other necessary variables
-}
-
 module "instances" {
   source             = "./module/instances"
   vpc_id             = module.network.vpc_id
   public_subnet_ids  = module.network.public_subnet_ids
   private_subnet_ids = module.network.private_subnet_ids
+  ec2_sg_id          = module.network.ec2_sg_id  # Reference the ec2_sg_id from the network module
 }
+
+module "databases" {
+  source     = "./module/databases"
+  vpc_id     = module.network.vpc_id
+  rds_sg_id  = module.network.rds_sg_id  # Reference the rds_sg_id from the network module
+}
+
