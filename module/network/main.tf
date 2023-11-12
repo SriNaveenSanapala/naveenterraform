@@ -61,12 +61,15 @@ resource "aws_route_table" "private" {
   }
 }
 
+# ./module/network/main.tf
+
 resource "aws_route_table_association" "public_subnet_association" {
-  count          = 1
-  subnet_id      = aws_subnet.public.id  # Remove [0] index
-  route_table_id = aws_route_table.public[0].id
-  depends_on     = [aws_route_table.public[0]]
+  count          = length(var.public_subnet_names)  # Assuming var.public_subnet_names is used to define the public subnets
+  subnet_id      = aws_subnet.public[count.index].id  # Use count.index to access the specific instance
+  route_table_id = aws_route_table.public[count.index].id
+  depends_on     = [aws_route_table.public[count.index]]  # Add dependency on the specific route table instance
 }
+
 
 resource "aws_route_table_association" "private_subnet_association" {
   count          = 1
