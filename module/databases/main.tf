@@ -4,19 +4,8 @@ resource "aws_kms_key" "example" {
   description = "Example KMS Key"
 }
 
-resource "aws_security_group" "example" {
-  name        = "example"
-  description = "Allow inbound SSH and outbound HTTP traffic"
-  vpc_id      = var.vpc_id
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  # Add other security group rules as needed
+resource "aws_kms_key" "example" {
+  description = "Example KMS Key"
 }
 
 resource "aws_db_instance" "default" {
@@ -30,5 +19,5 @@ resource "aws_db_instance" "default" {
   master_user_secret_kms_key_id = aws_kms_key.example.key_id
   username                      = "foo"
   parameter_group_name          = "default.mysql5.7"
-  vpc_security_group_ids        = [aws_security_group.example.id]
+  vpc_security_group_ids        = [module.security.aws_security_group.example.id]
 }
