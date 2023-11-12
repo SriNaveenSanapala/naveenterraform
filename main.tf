@@ -1,5 +1,5 @@
 module "network" {
-  source                  = "./module/network"
+  source                  = "./modules/network"
   vpc_cidr_block          = "10.0.0.0/16"
   availability_zones      = ["us-east-1a", "us-east-1b"]
   vpc_name                = "my-vpc1"
@@ -10,20 +10,19 @@ module "network" {
   private_route_table_name = "private-route-table"
 }
 
-module "instances" {
-  source             = "./module/instances"
-  vpc_id             = module.network.vpc_id
-  public_subnet_ids  = module.network.public_subnet_ids
+module "database" {
+  source             = "./modules/database"
   private_subnet_ids = module.network.private_subnet_ids
-}
-
-module "databases" {
-  source             = "./module/databases"
-  private_subnet_ids = module.network.private_subnet_ids
-  #security_group_id  = module.security.aws_security_group.example.id
 }
 
 module "security" {
-  source = "./module/security"
+  source = "./modules/security"
   vpc_id = module.network.vpc_id
+}
+
+module "instances" {
+  source             = "./modules/instances"
+  vpc_id             = module.network.vpc_id
+  public_subnet_ids  = module.network.public_subnet_ids
+  private_subnet_ids = module.network.private_subnet_ids
 }
