@@ -9,7 +9,7 @@ resource "aws_vpc" "main" {
 }
 
 resource "aws_subnet" "public" {
-  count                   = 1
+  count                   = 2
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.${count.index + 1}.0/24"
   availability_zone       = element(var.availability_zones, count.index)
@@ -21,7 +21,7 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_subnet" "private" {
-  count                   = 1
+  count                   = 2
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.${count.index + 3}.0/24"
   availability_zone       = element(var.availability_zones, count.index)
@@ -64,15 +64,16 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route_table_association" "public_subnet_association" {
-  subnet_id      = aws_subnet.public[0].id
-  route_table_id = aws_route_table.public.id
+  count           = 2
+  subnet_id       = aws_subnet.public[count.index].id
+  route_table_id  = aws_route_table.public.id
 }
 
 resource "aws_route_table_association" "private_subnet_association" {
-  subnet_id      = aws_subnet.private[0].id
-  route_table_id = aws_route_table.private.id
+  count           = 2
+  subnet_id       = aws_subnet.private[count.index].id
+  route_table_id  = aws_route_table.private.id
 }
-
   # Add other security group rules as needed
 resource "aws_security_group" "ec2_sg" {
   name        = "web_sg"
@@ -84,6 +85,18 @@ resource "aws_security_group" "ec2_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
