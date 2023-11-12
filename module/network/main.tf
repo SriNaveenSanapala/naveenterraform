@@ -64,16 +64,14 @@ resource "aws_route_table" "private" {
 
 resource "aws_route_table_association" "public_subnet_association" {
   count          = 1
-  subnet_id      = aws_subnet.public[0].id
+  subnet_id      = aws_subnet.public.id  # Remove [0] index
   route_table_id = aws_route_table.public[0].id
   depends_on     = [aws_route_table.public[0]]
 }
 
 resource "aws_route_table_association" "private_subnet_association" {
   count          = 1
-  subnet_id      = aws_subnet.private[0].id
+  subnet_id      = aws_subnet.private.id  # Remove [0] index
   route_table_id = aws_route_table.private[0].id
   depends_on     = [aws_route_table.private[0]]
 }
-
-
