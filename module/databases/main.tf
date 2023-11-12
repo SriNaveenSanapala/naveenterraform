@@ -17,8 +17,14 @@ resource "aws_kms_key" "example" {
 
 resource "aws_db_subnet_group" "example" {
   name        = "my-db-subnet-group"
-  subnet_ids  = module.network.public_subnet_ids
+  description = "My DB Subnet Group"
+  subnet_ids  = [
+    aws_subnet.private[0].id,  # Make sure this subnet is in one AZ
+    aws_subnet.private[1].id,  # And this one is in another AZ
+    # Add more subnets if needed
+  ]
 }
+
 
 resource "aws_db_instance" "default" {
   allocated_storage             = 10
