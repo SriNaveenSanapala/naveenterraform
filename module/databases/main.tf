@@ -1,15 +1,14 @@
 // databases/main.tf
 
 resource "aws_db_subnet_group" "example" {
-  name        = "my-new-db-subnet-group"  # Choose a unique name
-  description = "My New DB Subnet Group"
-  subnet_ids  = [
-    aws_subnet.private[0].id,
-    aws_subnet.private[1].id,
-    # Add additional subnet IDs if needed
-  ]
-}
+  name        = "my-new-db-subnet-group"
+  description = "my-new-db-subnet-group"
+  subnet_ids  = var.private_subnet_ids
 
+  tags = {
+    Name = "MyNewDBSubnetGroup"
+  }
+}
 
 resource "aws_kms_key" "example" {
   description = "Example KMS Key"
