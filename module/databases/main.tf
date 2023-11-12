@@ -1,8 +1,8 @@
 // databases/main.tf
 
 resource "aws_db_subnet_group" "example" {
-  name        = "my-new-db-subnet-group"
-  description = "my-new-db-subnet-group"
+  name        = "my-new-db-subnet-group1"
+  description = "my-new-db-subnet-group1"
   subnet_ids  = var.private_subnet_ids
 
   tags = {
