@@ -22,8 +22,8 @@ resource "aws_subnet" "public" {
   }
 }
 
-
 resource "aws_subnet" "private" {
+  count                   = 1
   vpc_id                  = aws_vpc.main[0].id
   cidr_block              = "10.0.3.0/24"
   availability_zone       = element(var.availability_zones, 0)
@@ -32,6 +32,7 @@ resource "aws_subnet" "private" {
     Name = "private-subnet-1"
   }
 }
+
 resource "aws_internet_gateway" "main" {
   count = var.create_internet_gateway ? 1 : 0
   vpc_id = aws_vpc.main[0].id
@@ -39,13 +40,14 @@ resource "aws_internet_gateway" "main" {
     Name = var.igw_name
   }
 }
+
 resource "aws_route_table" "public" {
   count = 1
   vpc_id = aws_vpc.main[0].id
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.main[0].id
+    gateway_id = var.create_internet_gateway ? aws_internet_gateway.main[0].id : null
   }
 
   tags = {
@@ -61,19 +63,16 @@ resource "aws_route_table" "private" {
   }
 }
 
-# ./module/network/main.tf
-
 resource "aws_route_table_association" "public_subnet_association" {
-  count          = length(var.public_subnet_names)  # Assuming var.public_subnet_names is used to define the public subnets
-  subnet_id      = aws_subnet.public[count.index].id  # Use count.index to access the specific instance
+  count          = length(var.public_subnet_names)
+  subnet_id      = aws_subnet.public[count.index].id
   route_table_id = aws_route_table.public[count.index].id
-  depends_on     = [aws_route_table.public[count.index]]  # Add dependency on the specific route table instance
+  depends_on     = [aws_route_table.public[count.index]]
 }
-
 
 resource "aws_route_table_association" "private_subnet_association" {
   count          = 1
-  subnet_id      = aws_subnet.private.id  # Remove [0] index
+  subnet_id      = aws_subnet.private[0].id
   route_table_id = aws_route_table.private[0].id
   depends_on     = [aws_route_table.private[0]]
 }
