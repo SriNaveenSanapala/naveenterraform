@@ -21,12 +21,5 @@ resource "aws_db_instance" "default" {
   
   vpc_security_group_ids        = [module.security.security_group_id]
 
-  subnet_ids                    = [module.network.public_subnet_ids[0]] # Use the ID of the public subnet
-}
-
-# Explicitly declare the dependency between databases and network modules
-module "databases" {
-  source             = "./module/databases"
-  private_subnet_ids = module.network.private_subnet_ids
-  depends_on         = [module.network]
+  subnet_ids                    = [module.network.public_subnet_ids[0]]
 }
