@@ -32,16 +32,13 @@ resource "aws_subnet" "private" {
     Name = "private-subnet-1"
   }
 }
-
-
 resource "aws_internet_gateway" "main" {
-  count = 1
+  count = var.create_internet_gateway ? 1 : 0
   vpc_id = aws_vpc.main[0].id
   tags = {
     Name = var.igw_name
   }
 }
-
 resource "aws_route_table" "public" {
   count = 1
   vpc_id = aws_vpc.main[0].id
