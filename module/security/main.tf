@@ -1,7 +1,7 @@
 resource "aws_security_group" "ec2_sg" {
   name        = "web_sg"
   description = "Security group for web instances"
-  vpc_id      = "var.vpc_id"
+  vpc_id      = var.vpc_id
 
   // Define your security group rules here
   ingress {
