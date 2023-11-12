@@ -86,6 +86,7 @@ resource "aws_security_group" "ec2_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
   resource "aws_security_group" "rds_sg" {
   name        = "db_sg"
   description = "Security group for database instances"
