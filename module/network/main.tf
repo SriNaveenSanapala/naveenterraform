@@ -70,5 +70,5 @@ resource "null_resource" "dependency" {
     command = "echo This is a dependency for subnet ${var.public_subnet_names[count.index]}"
   }
 
-  depends_on = [null_resource.dependency[count.index]]
+  depends_on = [null_resource.dummy]
 }
