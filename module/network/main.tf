@@ -63,21 +63,9 @@ resource "aws_route_table" "private" {
   }
 }
 
-resource "aws_route_table_association" "public_subnet_association" {
-  count          = length(var.public_subnet_names)
-  subnet_id      = aws_subnet.public[count.index].id
-  route_table_id = aws_route_table.public[count.index].id
-}
-
-resource "aws_route_table_association" "private_subnet_association" {
-  count          = 1
-  subnet_id      = aws_subnet.private[0].id
-  route_table_id = aws_route_table.private[0].id
-}
-
-# Create an explicit dependency using the depends_on meta-argument
 resource "null_resource" "dependency" {
+  count      = length(var.public_subnet_names)
   depends_on = [
-    for idx in range(length(var.public_subnet_names)) : aws_route_table.public[idx]
+    for idx in range(count) : aws_route_table.public[idx]
   ]
 }
