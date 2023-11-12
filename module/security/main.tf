@@ -1,7 +1,7 @@
 resource "aws_security_group" "example" {
   name        = "example"
   description = "Allow inbound SSH and outbound HTTP traffic"
-  vpc_id      = var.vpc_id
+  vpc_id      = module.network.vpc_id  # Use the correct reference to the VPC ID from the network module
 
   ingress {
     from_port   = 22
@@ -11,8 +11,4 @@ resource "aws_security_group" "example" {
   }
 
   # Add other security group rules as needed
-}
-
-output "security_group_id" {
-  value = aws_security_group.example.id
 }
