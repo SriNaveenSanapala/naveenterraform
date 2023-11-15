@@ -1,4 +1,4 @@
-name: Terraform AWS Deploymentsssss
+name: Terraform AWS 
 
 on:
   push:
